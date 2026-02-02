@@ -1,19 +1,22 @@
-const PlayerSetup = document.getElementById("PlayerSetup");
+const PlayerSetupSection = document.getElementById("player-setup");
+const categorySelectionSection = document.getElementById("category-selection");
 
-const player1Input = document.getElementById("player1");
-const player2Input = document.getElementById("player2");
-
-const error = document.getElementById("errorMsg");
-
-const startBtn = document.getElementById("startBtn");
+const startGameButton = document.getElementById("start-game-button");
+const startRoundButton = document.getElementById("start-round-button");
 
 let player1Name = "";
 let player2Name = "";
 
-startBtn.addEventListener("click", function() {
-    const firstPlayer = player1Input.value;
-    const secondPlayer = player2Input.value;
+categorySelectionSection.style.display = "none";
+
+startGameButton.addEventListener("click", function() {
+    const player1Input = document.getElementById("player1");
+    const player2Input = document.getElementById("player2");
     
+    const player1Name = player1Input.value;
+    const player2Name = player2Input.value;
+    
+    const error = document.getElementById("error-msg");
     error.textContent = "";
     
     if (player1Name == "" || player1Name == "") {
@@ -25,4 +28,22 @@ startBtn.addEventListener("click", function() {
         error.textContent = "Player names must be unique";
         return;
     }
+    
+    PlayerSetupSection.style.display = "none";
+    categorySelectionSection.style.display = "block";
+    
+    
+    const displayPlayer1Name = document.getElementById("display-player1-name");
+    const displayPlayer2Name = document.getElementById("display-player2-name");
+    
+    displayPlayer1Name.textContent = "FirstPlayer: " + player1Name;
+    displayPlayer2Name.textContent = "SecondPlayer: " + player2Name
+})
+
+startRoundButton.addEventListener("click", function() {
+    const categoryDropdown = document.getElementById("category-dropdown");
+    selecteedCategory = categoryDropdown.value;
+    
+    categoryDropdown.remove(categoryDropdown.selectedIndex);
+    
 })

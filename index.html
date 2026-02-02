@@ -3,12 +3,32 @@
     <title>Two-Player Trivia Battle Game</title>
     </head>
     <body>
-        <div id="PlayerSetup">
+        <div id="player-setup">
             <input type="text" id="player1" placeholder="Enter the first player name">
             <input type="text" id="player2" placeholder="Enter the second player name">
-            <p id="errorMsg"></p>
-            <button id="startBtn">Start Game</button>
+            <p id="error-msg"></p>
+            <button id="start-game-button">Start Game</button>
+        </div>
+        <div id="category-selection">
+            <p id="display-player1-name"></p>
+            <p id="display-player2-name"></p>
+
+            <select id="category-dropdown">
+                <option value="music">Music</option>
+                <option value="sport and leisure">sport and leisure</option>
+                <option value="film and tv">film and tv</option>
+                <option value="arts and literature">arts and literature</option>
+                <option value="history">history</option>
+                <option value="society and culture">society and culture</option>
+                <option value="science">science</option>
+                <option value="geography">geography</option>
+                <option value="food and drink">food and drink</option>
+                <option value="general knowledge">general knowledge</option>
+            </select>
+            <button id="start-round-button">Start Round button</button>
         </div>
         <script src="script.js"></script>
     </body>
 </html>
+
+
