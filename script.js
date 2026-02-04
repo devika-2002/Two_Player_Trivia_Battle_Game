@@ -1,5 +1,5 @@
-const PlayerSetupSection = document.getElementById("player-setup");
-const categorySelectionSection = document.getElementById("category-selection");
+const PlayerSetupSection = document.getElementById("player-setup-section");
+const categorySelectionSection = document.getElementById("category-selection-section");
 
 const startGameButton = document.getElementById("start-game-button");
 const startRoundButton = document.getElementById("start-round-button");
@@ -19,7 +19,7 @@ startGameButton.addEventListener("click", function() {
     const error = document.getElementById("error-msg");
     error.textContent = "";
     
-    if (player1Name == "" || player1Name == "") {
+    if (player1Name == "" || player2Name == "") {
         error.textContent = "Please enter both player names";
         return;
     }
@@ -32,7 +32,6 @@ startGameButton.addEventListener("click", function() {
     PlayerSetupSection.style.display = "none";
     categorySelectionSection.style.display = "block";
     
-    
     const displayPlayer1Name = document.getElementById("display-player1-name");
     const displayPlayer2Name = document.getElementById("display-player2-name");
     
@@ -40,10 +39,32 @@ startGameButton.addEventListener("click", function() {
     displayPlayer2Name.textContent = "SecondPlayer: " + player2Name
 })
 
-startRoundButton.addEventListener("click", function() {
+startRoundButton.addEventListener("click", function () {
     const categoryDropdown = document.getElementById("category-dropdown");
-    selecteedCategory = categoryDropdown.value;
-    
+    const selectedCategory = categoryDropdown.value;
+
+    const difficulty = ["easy", "medium", "hard"];
+
     categoryDropdown.remove(categoryDropdown.selectedIndex);
-    
-})
+
+    fetchQuestions(selectedCategory, difficulty);
+});
+
+async function fetchQuestions(category, difficulty) {
+    try {
+    const response = await fetch(
+      `https://the-trivia-api.com/v2/questions?categories=${category}&difficulties=${difficulty}&limit=2`
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch questions");
+    }
+
+    const data = await response.json();
+    console.log(data);
+
+    } catch (error) {
+    console.error("Error:", error);
+    }
+}
+
