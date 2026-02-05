@@ -17,6 +17,12 @@ const optionTwoEl = document.getElementById("option-two");
 const optionThreeEl = document.getElementById("option-three");
 const optionFourEl = document.getElementById("option-four");
 
+const optionOneText = document.getElementById("option-one-text");
+const optionTwoText = document.getElementById("option-two-text");
+const optionThreeText = document.getElementById("option-three-text");
+const optionFourText = document.getElementById("option-four-text");
+
+
 
 
 const player1ScoreEl = document.getElementById("player1-name-score");
@@ -137,10 +143,15 @@ function showQuestion() {
     options.push(currentQuestion.incorrectAnswers[1]);
     options.push(currentQuestion.incorrectAnswers[2]);  
     
-    optionOneEl.textContent = options[0];
-    optionTwoEl.textContent = options[1];
-    optionThreeEl.textContent = options[2];
-    optionFourEl.textContent = options[3];
+    optionOneText.textContent = options[0];
+    optionTwoText.textContent = options[1];
+    optionThreeText.textContent = options[2];
+    optionFourText.textContent = options[3];
+    
+    optionOneEl.checked = false;
+    optionTwoEl.checked = false;
+    optionThreeEl.checked = false;
+    optionFourEl.checked = false;
 
     if (index >= questions.length - 1) {
         nextButtonEl.disabled = true; 
