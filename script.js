@@ -5,145 +5,161 @@ const questionGameplaySection = document.getElementById("question-gameplay-secti
 const startGameButton = document.getElementById("start-game-button");
 const startRoundButton = document.getElementById("start-round-button");
 
+const roundNumberEl = document.getElementById("round-number");
+const categoryNameEl = document.getElementById("category-name");
+const difficultyLevelEl = document.getElementById("difficulty-level");
+const currentPlayerTurnEl = document.getElementById("current-player-turn");
+const questionTextEl = document.getElementById("question-text");
+const nextButtonEl = document.getElementById("next-button");
+
+const optionOneEl = document.getElementById("option-one");
+const optionTwoEl = document.getElementById("option-two");
+const optionThreeEl = document.getElementById("option-three");
+const optionFourEl = document.getElementById("option-four");
+
+
+
+const player1ScoreEl = document.getElementById("player1-name-score");
+const player2ScoreEl = document.getElementById("player2-name-score");
+
 let index = 0;
 
 let player1Name = "";
 let player2Name = "";
 
+let player1Score = 0;
+let player2Score = 0;
+
 let currentCategory = "";
-const difficultyList = ["easy", "medium", "hard"];
+let difficultyList = ["easy", "medium", "hard"];
 let currentDifficulty = "";
+
+let questions = []; 
 
 categorySelectionSection.style.display = "none";
 questionGameplaySection.style.display = "none";
 
-startGameButton.addEventListener("click", function() {
+startGameButton.addEventListener("click", function () {
     const player1Input = document.getElementById("player1");
     const player2Input = document.getElementById("player2");
-    
+
     player1Name = player1Input.value;
     player2Name = player2Input.value;
-    
+
     const error = document.getElementById("error-msg");
     error.textContent = "";
-    
-    if (player1Name == "" || player2Name == "") {
+
+    if (player1Name === "" || player2Name === "") {
         error.textContent = "Please enter both player names";
         return;
     }
-    
-    if (player1Name == player2Name) {
+
+    if (player1Name === player2Name) {
         error.textContent = "Player names must be unique";
         return;
     }
-    
+
     PlayerSetupSection.style.display = "none";
     categorySelectionSection.style.display = "block";
-    
-    const displayPlayer1Name = document.getElementById("display-player1-name");
-    const displayPlayer2Name = document.getElementById("display-player2-name");
-    
-    displayPlayer1Name.textContent = "FirstPlayer: " + player1Name;
-    displayPlayer2Name.textContent = "SecondPlayer: " + player2Name
-})
+
+    document.getElementById("display-player1-name").textContent = "FirstPlayer: " + player1Name;
+
+    document.getElementById("display-player2-name").textContent = "SecondPlayer: " + player2Name;
+});
 
 startRoundButton.addEventListener("click", function () {
     const categoryDropdown = document.getElementById("category-dropdown");
-    const selectedCategory = categoryDropdown.value;
-    
-    currentCategory = selectedCategory;
+    currentCategory = categoryDropdown.value;
 
     categoryDropdown.remove(categoryDropdown.selectedIndex);
-    
+
     categorySelectionSection.style.display = "none";
     questionGameplaySection.style.display = "block";
-    
-    const roundNumberElement = document.getElementById("round-number");
-    roundNumberElement.textContent = "Round: " + (index + 1);
-    
-    const categoryName = document.getElementById("category-name");
-    categoryName.textContent = "Category: " + currentCategory;
-    
-    let currentDifficulty = "";
+
+    roundNumberEl.textContent = "Round: " + (index + 1);
+
+    categoryNameEl.textContent = "Category: " + currentCategory;
 
     if (index < 2) {
-      currentDifficulty = difficultyList[0]; 
+        currentDifficulty = difficultyList[0];
     } else if (index < 4) {
-      currentDifficulty = difficultyList[1]; 
+        currentDifficulty = difficultyList[1]; 
     } else {
-      currentDifficulty = difficultyList[2];
+        currentDifficulty = difficultyList[2]; 
     }
 
-    const difficultyLevel = document.getElementById("difficulty-level");
-    difficultyLevel.textContent = "Difficulty: " + currentDifficulty;
-    
-    const currentPlayerTurn = document.getElementById("current-player-turn");
+    difficultyLevelEl.textContent = "Difficulty: " + currentDifficulty;
+
     if (index % 2 === 0) {
-        currentPlayerTurn.textContent = "Player Turn: " + player1Name;
+        currentPlayerTurnEl.textContent = "Player Turn: " + player1Name;
     } else {
-        currentPlayerTurn.textContent = "Player Turn: " + player2Name;
+        currentPlayerTurnEl.textContent = "Player Turn: " + player2Name;
     }
-   
-    fetchQuestions(selectedCategory, difficultyList);
+
+    player1ScoreEl.textContent = player1Name + ": " + player1Score;
+    player2ScoreEl.textContent = player2Name + ": " + player2Score;
+
+    fetchQuestions(currentCategory, currentDifficulty);
 });
 
-async function fetchQuestions(category, difficultyList) {
+
+async function fetchQuestions(category, difficulty) {
+    questions = []; 
+    index = 0;
+
     try {
-    const response = await fetch(
-      `https://the-trivia-api.com/v2/questions?categories=${category}&difficulties=${difficultyList}&limit=2`
-    );
+        for (let i = 0; i < difficultyList.length; i++) {
+            const difficulty = difficultyList[i];
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch questions");
-    }
+            const response = await fetch(
+                `https://the-trivia-api.com/v2/questions?categories=${category}&difficulties=${difficulty}&limit=2`
+            );
 
-    const data = await response.json();
-    console.log(data);
+            if (!response.ok) {
+                throw new Error("Failed to fetch questions");
+            }
+
+            const data = await response.json();
+            data.forEach(function (q) {
+                questions.push(q);
+            });
+        }
+
+        console.log("Total questions:", questions.length);
+        showQuestion();
 
     } catch (error) {
-    console.error("Error:", error);
+        console.error("Error:", error);
     }
 }
 
 function showQuestion() {
+    const currentQuestion = questions[index]; 
+    
+    questionTextEl.textContent = currentQuestion.question.text;
+    
+    let options = [];
+        
+    options.push(currentQuestion.correctAnswer);
+    options.push(currentQuestion.incorrectAnswers[0]);
+    options.push(currentQuestion.incorrectAnswers[1]);
+    options.push(currentQuestion.incorrectAnswers[2]);  
+    
+    optionOneEl.textContent = options[0];
+    optionTwoEl.textContent = options[1];
+    optionThreeEl.textContent = options[2];
+    optionFourEl.textContent = options[3];
 
+    if (index >= questions.length - 1) {
+        nextButtonEl.disabled = true; 
+    } else {
+        nextButtonEl.disabled = false;
+    }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+nextButtonEl.addEventListener("click", function () {
+    index++;
+    showQuestion();
+});
 
 
