@@ -76,25 +76,7 @@ startRoundButton.addEventListener("click", function () {
     categorySelectionSection.style.display = "none";
     questionGameplaySection.style.display = "block";
 
-    roundNumberEl.textContent = "Round: " + (index + 1);
-
     categoryNameEl.textContent = "Category: " + currentCategory;
-
-    if (index < 2) {
-        currentDifficulty = difficultyList[0];
-    } else if (index < 4) {
-        currentDifficulty = difficultyList[1]; 
-    } else {
-        currentDifficulty = difficultyList[2]; 
-    }
-
-    difficultyLevelEl.textContent = "Difficulty: " + currentDifficulty;
-
-    if (index % 2 === 0) {
-        currentPlayerTurnEl.textContent = "Player Turn: " + player1Name;
-    } else {
-        currentPlayerTurnEl.textContent = "Player Turn: " + player2Name;
-    }
 
     player1ScoreEl.textContent = player1Name + ": " + player1Score;
     player2ScoreEl.textContent = player2Name + ": " + player2Score;
@@ -135,6 +117,16 @@ async function fetchQuestions(category, difficulty) {
 
 function showQuestion() {
     const currentQuestion = questions[index]; 
+    
+    roundNumberEl.textContent = "Round: " + (index + 1);
+    
+    difficultyLevelEl.textContent = "Difficulty: " + currentQuestion.difficulty
+    
+    if (index % 2 === 0) {
+        currentPlayerTurnEl.textContent = "Player Turn: " + player1Name;
+    } else {
+        currentPlayerTurnEl.textContent = "Player Turn: " + player2Name;
+    }
     
     questionTextEl.textContent = currentQuestion.question.text;
     
