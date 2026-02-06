@@ -1,6 +1,7 @@
 const PlayerSetupSection = document.getElementById("player-setup-section");
 const categorySelectionSection = document.getElementById("category-selection-section");
 const questionGameplaySection = document.getElementById("question-gameplay-section");
+const roundSummarySection = document.getElementById("round-summary-section");
 
 const startGameButton = document.getElementById("start-game-button");
 const startRoundButton = document.getElementById("start-round-button");
@@ -41,6 +42,7 @@ let questions = [];
 
 categorySelectionSection.style.display = "none";
 questionGameplaySection.style.display = "none";
+roundSummarySection.style.display = "none";
 
 startGameButton.addEventListener("click", function () {
     const player1Input = document.getElementById("player1");
@@ -149,70 +151,84 @@ function showQuestion() {
     optionTwoEl.checked = false;
     optionThreeEl.checked = false;
     optionFourEl.checked = false;
+    
+    roundSummarySection.style.display = "block";
 }
 
 function getSelectedAnswer() {
-  let selectedAnswer = null;
+    let selectedAnswer = null;
 
-  if (optionOneEl.checked) {
+    if (optionOneEl.checked) {
     selectedAnswer = optionOneText.textContent;
-  }
+    }
 
-  if (optionTwoEl.checked) {
+    if (optionTwoEl.checked) {
     selectedAnswer = optionTwoText.textContent;
-  }
+    }
 
-  if (optionThreeEl.checked) {
+    if (optionThreeEl.checked) {
     selectedAnswer = optionThreeText.textContent;
-  }
+    }
 
-  if (optionFourEl.checked) {
+    if (optionFourEl.checked) {
     selectedAnswer = optionFourText.textContent;
-  }
+    }
 
-  return selectedAnswer;
+    return selectedAnswer;
 }
 
 function updateScore() {
-  const selectedAnswer = getSelectedAnswer();
-  const correctAnswer = questions[index].correctAnswer;
-  const difficulty = questions[index].difficulty;
+    const selectedAnswer = getSelectedAnswer();
+    const correctAnswer = questions[index].correctAnswer;
+    const difficulty = questions[index].difficulty;
 
-  let score = 0;
+    let score = 0;
 
-  if (difficulty === "easy") {
+    if (difficulty === "easy") {
     score = 10;
-  } else if (difficulty === "medium") {
+    } else if (difficulty === "medium") {
     score = 15;
-  } else if (difficulty === "hard") {
+    } else if (difficulty === "hard") {
     score = 20;
-  }
+    }
 
-  if (selectedAnswer === correctAnswer) {
+    if (selectedAnswer === correctAnswer) {
     if (index % 2 === 0) {
       player1Score += score;
     } else {
       player2Score += score;
     }
-  }
+    }
 
-  player1ScoreEl.textContent = player1Name + ": " + player1Score;
-  player2ScoreEl.textContent = player2Name + ": " + player2Score;
+    player1ScoreEl.textContent = player1Name + ": " + player1Score;
+    player2ScoreEl.textContent = player2Name + ": " + player2Score;
 }
 
 nextButtonEl.addEventListener("click", function () {
 
-  updateScore();
+    updateScore();
      
-  if (index >= questions.length - 1) {
-    nextButtonEl.disabled = true;
+    if (index >= questions.length - 1) {
+    showRoundSummaryScreen();
     return;
-  }
-  
-  index++;  
+    }
+
+    index++;  
          
-  showQuestion(); 
+    showQuestion(); 
 });
+
+function showRoundSummaryScreen() {
+  questionGameplaySection.style.display = "none";
+  roundSummarySection.style.display = "block";
+
+  const categoryDropdown = document.getElementById("category-dropdown");
+  if (categoryDropdown.options.length === 0) {
+    nextRoundButton.disabled = true;
+  } else {
+    nextRoundButton.disabled = false;
+  }
+}
 
 
 
