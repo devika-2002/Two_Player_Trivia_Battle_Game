@@ -26,6 +26,13 @@ const optionFourText = document.getElementById("option-four-text");
 const player1ScoreEl = document.getElementById("player1-name-score");
 const player2ScoreEl = document.getElementById("player2-name-score");
 
+const finalResultSection = document.getElementById("final-result-section");
+const finalPlayer1ScoreEl = document.getElementById("final-player1-score");
+const finalPlayer2ScoreEl = document.getElementById("final-player2-score");
+const winnerTextEl = document.getElementById("winner-text");
+const restartGameButton = document.getElementById("restart-game-button");
+
+
 let index = 0;
 
 let player1Name = "";
@@ -43,6 +50,7 @@ let questions = [];
 categorySelectionSection.style.display = "none";
 questionGameplaySection.style.display = "none";
 roundSummarySection.style.display = "none";
+restartGameButton.style.display = "none";
 
 startGameButton.addEventListener("click", function () {
     const player1Input = document.getElementById("player1");
@@ -229,6 +237,32 @@ function showRoundSummaryScreen() {
     nextRoundButton.disabled = false;
   }
 }
+
+function showFinalResultScreen() {
+    questionGameplaySection.style.display = "none";
+    roundSummarySection.style.display = "none";
+    finalResultSection.style.display = "block";
+
+    finalPlayer1ScoreEl.textContent =
+        player1Name + " Final Score: " + player1Score;
+
+    finalPlayer2ScoreEl.textContent =
+        player2Name + " Final Score: " + player2Score;
+
+    if (player1Score > player2Score) {
+        winnerTextEl.textContent = "Winner: " + player1Name;
+    } else if (player2Score > player1Score) {
+        winnerTextEl.textContent = "Winner: " + player2Name;
+    } else {
+        winnerTextEl.textContent = "Match Draw!";
+    }
+}
+
+const endGameButton = document.getElementById("end-game-button");
+
+endGameButton.addEventListener("click", function () {
+    showFinalResultScreen();
+});
 
 
 
