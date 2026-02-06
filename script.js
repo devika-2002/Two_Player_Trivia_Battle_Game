@@ -22,9 +22,6 @@ const optionTwoText = document.getElementById("option-two-text");
 const optionThreeText = document.getElementById("option-three-text");
 const optionFourText = document.getElementById("option-four-text");
 
-
-
-
 const player1ScoreEl = document.getElementById("player1-name-score");
 const player2ScoreEl = document.getElementById("player2-name-score");
 
@@ -152,17 +149,71 @@ function showQuestion() {
     optionTwoEl.checked = false;
     optionThreeEl.checked = false;
     optionFourEl.checked = false;
+}
 
-    if (index >= questions.length - 1) {
-        nextButtonEl.disabled = true; 
+function getSelectedAnswer() {
+  let selectedAnswer = null;
+
+  if (optionOneEl.checked) {
+    selectedAnswer = optionOneText.textContent;
+  }
+
+  if (optionTwoEl.checked) {
+    selectedAnswer = optionTwoText.textContent;
+  }
+
+  if (optionThreeEl.checked) {
+    selectedAnswer = optionThreeText.textContent;
+  }
+
+  if (optionFourEl.checked) {
+    selectedAnswer = optionFourText.textContent;
+  }
+
+  return selectedAnswer;
+}
+
+function updateScore() {
+  const selectedAnswer = getSelectedAnswer();
+  const correctAnswer = questions[index].correctAnswer;
+  const difficulty = questions[index].difficulty;
+
+  let score = 0;
+
+  if (difficulty === "easy") {
+    score = 10;
+  } else if (difficulty === "medium") {
+    score = 15;
+  } else if (difficulty === "hard") {
+    score = 20;
+  }
+
+  if (selectedAnswer === correctAnswer) {
+    if (index % 2 === 0) {
+      player1Score += score;
     } else {
-        nextButtonEl.disabled = false;
+      player2Score += score;
     }
+  }
+
+  player1ScoreEl.textContent = player1Name + ": " + player1Score;
+  player2ScoreEl.textContent = player2Name + ": " + player2Score;
 }
 
 nextButtonEl.addEventListener("click", function () {
-    index++;
-    showQuestion();
+
+  updateScore();
+     
+  if (index >= questions.length - 1) {
+    nextButtonEl.disabled = true;
+    return;
+  }
+  
+  index++;  
+         
+  showQuestion(); 
 });
+
+
 
 
