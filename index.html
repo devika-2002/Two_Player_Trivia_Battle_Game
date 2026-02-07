@@ -1,7 +1,7 @@
 <html>
     <head>
-    <title>Two-Player Trivia Battle Game</title>
-    <link rel="stylesheet" href="style.css">
+        <title>Two-Player Trivia Battle Game</title>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <div id="player-setup-section">
@@ -11,8 +11,7 @@
             <button id="start-game-button">Start Game</button>
         </div>
         <div id="category-selection-section">
-            <p id="display-player1-name"></p>
-            <p id="display-player2-name"></p>
+            <h2 id="round-number">Round 1</h2>
 
             <select id="category-dropdown">
                 <option value="music">Music</option>
@@ -26,51 +25,60 @@
                 <option value="food and drink">food and drink</option>
                 <option value="general knowledge">general knowledge</option>
             </select>
+            
+            <p id="category-error"></p>
+
             <button id="start-round-button">Start Round button</button>
         </div>
+
         <div id="question-gameplay-section">
+            <h3 id="game-round"></h3>
+            <p id="game-category"></p>
+            <p id="game-difficulty"></p>
+            <p id="player-turn"></p>
 
-            <p id="round-number"></p>
-            <p id="category-name"></p>
-            <p id="difficulty-level"></p>
-            <p id="current-player-turn"></p>
+            <p id="player1-score"></p>
+            <p id="player2-score"></p>
 
-            <p id="player1-name-score"></p>
-            <p id="player2-name-score"></p>
+            <h4 id="question-text"></h4>
+            <p id="error-message"></p>
 
-            <p id="question-text"></p>
             <div>
-              <input type="radio" name="options" id="option-one">
-              <span id="option-one-text"></span>
+                <input type="radio" name="options" id="option-one" onclick="enableNext()">
+                <span id="option-one-text"></span>
             </div>
 
             <div>
-              <input type="radio" name="options" id="option-two">
-              <span id="option-two-text"></span>
+                <input type="radio" name="options" id="option-two" onclick="enableNext()">
+                <span id="option-two-text"></span>
             </div>
 
             <div>
-              <input type="radio" name="options" id="option-three">
-              <span id="option-three-text"></span>
+                <input type="radio" name="options" id="option-three" onclick="enableNext()">
+                <span id="option-three-text"></span>
             </div>
 
             <div>
-              <input type="radio" name="options" id="option-four">
-              <span id="option-four-text"></span>
+                <input type="radio" name="options" id="option-four" onclick="enableNext()">
+                <span id="option-four-text"></span>
             </div>
+
+            <p id="answer-result"></p>
+
+            <button id="next-question-button" disabled>Next</button>
         </div>
+
         <div id="round-summary-section">
-            <button id="next-button">Next Round</button>
+            <button id="next-round-button">Next Round</button>
             <button id="end-game-button">End Game</button>
         </div>
+
         <div id="final-result-section">
             <p id="final-player1-score"></p>
             <p id="final-player2-score"></p>
-            <h3 id="winner-text"></h3>
+            <h4 id="winner-text"></h4>
         </div>
 
         <script src="script.js"></script>
     </body>
 </html>
-
-
