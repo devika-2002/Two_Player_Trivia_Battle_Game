@@ -70,15 +70,14 @@ startRoundButton.addEventListener("click", function () {
     const categoryDropdown = document.getElementById("category-dropdown");
     currentCategory = categoryDropdown.value;
     
-    const categoryError = document.getElementById("category-error");
-    categoryError.textContent = "";
+    const categoryError = document.getElementById("category-error"); 
+    categoryError.textContent = ""; 
     
-
-    if (currentCategory === "") {
-        categoryError.textContent = "Please select a category";
-        return;
+    if (currentCategory === "") { 
+        categoryError.textContent = "Please select a category"; 
+        return; 
     }
-
+    
     categoryDropdown.remove(categoryDropdown.selectedIndex);
 
     fetchQuestions(currentCategory);
@@ -131,7 +130,7 @@ function showQuestion() {
 
     const question = questions[currentQuestionIndex];
     const gameRoundEl = document.getElementById("game-round");
-    gameRoundEl.textContent = "Round " + round;
+    gameRoundEl.textContent = "Round: " + round;
     
     const gameCategoryEl = document.getElementById("game-category");
     gameCategoryEl.textContent = "Category: " + currentCategory;
@@ -272,7 +271,7 @@ nextRoundButton.addEventListener("click", function () {
     categorySelectionSection.style.display = "block";
 
     const roundNumberEl = document.getElementById("round-number");
-    roundNumberEl.textContent = "Round " + round;
+    roundNumberEl.textContent = "Round: " + round;
 
     currentQuestionIndex = 0;
 });
