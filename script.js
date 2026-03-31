@@ -102,19 +102,6 @@ async function fetchQuestions(category) {
             });
         }
 
-        const difficultyLevel = ["easy", "medium", "hard"];
-        let orderedQuestions = [];
-
-        for (let i = 0; i < difficultyLevel.length; i++) {
-            for (let j = 0; j < questions.length; j++) {
-                if (questions[j].difficulty === difficultyLevel[i]) {
-                    orderedQuestions.push(questions[j]);
-                }
-            }
-        }
-
-        questions = orderedQuestions;
-
         categorySelectionSection.style.display = "none";
         questionGameplaySection.style.display = "block";
 
